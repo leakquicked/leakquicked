@@ -32,6 +32,8 @@
   <div class="hero-actions">
     <button class="btn subtle" id="sampleBtn" type="button">Загрузить пример</button>
     <button class="btn" id="pasteBtn" type="button">Вставить данные</button>
+    <button class="btn" id="jsonExportBtn" type="button">Скачать JSON</button>
+    <button class="btn" id="reportExportBtn" type="button">Отчёт Markdown</button>
     <label class="btn primary" for="fileInput">Импортировать журналы</label>
     <input class="file-input" id="fileInput" type="file" accept=".json,.jsonl,.ndjson,.csv,.log,.txt">
   </div>
@@ -137,6 +139,10 @@ function importRows(rows,label){
  if(!rows.every(r=>r&&typeof r==="object"&&!Array.isArray(r)))throw Error("Каждая запись должна быть объектом.");
  events=rows.map((e,i)=>normalize(e,i));selectedId=events[0]?.id||null;render();toast("Импортировано записей: "+events.length+(label?" · "+label:""));
 }
+function downloadFile(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
+function stamp(){return new Date().toISOString().slice(0,10)}
+$("jsonExportBtn").addEventListener("click",()=>{downloadFile("sled-events-"+stamp()+".json",JSON.stringify(events.map(({id,raw,...e})=>e),null,2),"application/json;charset=utf-8");toast("Журнал сохранён в формате JSON")});
+$("reportExportBtn").addEventListener("click",()=>{const counts=["critical","high","medium","low","info"].map(s=>"- "+sevLabel(s)+": "+events.filter(e=>e.severity===s).length).join("\\n");const rows=[...events].sort((a,b)=>new Date(a.time)-new Date(b.time)).map(e=>"| "+fmtTime(e.time)+" | "+sevLabel(e.severity)+" | "+e.event.replace(/\\|/g,"\\\\|")+" | "+(e.host||"—")+" | "+(e.ip||"—")+" | "+(e.source||"—")+" | "+(e.mitre||"—")+" |").join("\\n");const report="# Журнал расследования\\n\\nСформировано: "+new Date().toLocaleString("ru-RU")+"\\n\\n## Сводка\\n\\nВсего событий: "+events.length+"\\n\\n"+counts+"\\n\\n## Временная линия\\n\\n| Время | Уровень | Событие | Узел | Адрес | Источник | MITRE ATT&CK |\\n| --- | --- | --- | --- | --- | --- | --- |\\n"+rows+"\\n\\n## Заметки аналитика\\n\\n"+($("notesInput").value.trim()||"Заметки не добавлены.")+"\\n\\n> Набор данных обработан локально. Автоматический вердикт не формируется.";downloadFile("sled-report-"+stamp()+".md",report,"text/markdown;charset=utf-8");toast("Отчёт Markdown сохранён")});
 function toast(message){const el=$("toast");el.textContent=message;el.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),3200)}
 $("sampleBtn").addEventListener("click",()=>{events=sampleEvents.map((e,i)=>normalize(e,i));selectedId=events[0].id;render();toast("Загружен синтетический набор: 7 событий")});
 $("fileInput").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{importRows(parseText(await file.text(),file.name),file.name)}catch(err){toast(err.message)}finally{e.target.value=""}});
