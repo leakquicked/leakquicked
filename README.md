@@ -24,7 +24,7 @@
 
 | Проект | Описание | Технологии |
 | --- | --- | --- |
-| [NIGHTFALL — Ghost Protocol](https://github.com/leakquicked/nightfall-graph-intelligence) | Интерактивная лаборатория графовой разведки и анализа связей | TypeScript, Next.js |
+| [СЛЕД — журнал расследования](https://github.com/leakquicked/leakquicked/tree/main/projects/sled) | Локальный разбор журналов, временная линия событий и экспорт отчёта | HTML, CSS, JavaScript |\n| [NIGHTFALL — Ghost Protocol](https://github.com/leakquicked/nightfall-graph-intelligence) | Интерактивная лаборатория графовой разведки и анализа связей | TypeScript, Next.js |
 | [profitlab-ai](https://github.com/leakquicked/profitlab-ai) | Аналитика продаж для малого бизнеса, проект для Digital Taraz Hackathon | HTML, AI |
 | [spectre-osint](https://github.com/leakquicked/spectre-osint) | Инструмент для OSINT-разведки | JavaScript |
 
