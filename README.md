@@ -30,6 +30,8 @@ My work is primarily educational and prototype-based. I aim to make each project
 | [СЛЕД — Incident Journal](https://github.com/leakquicked/sled-incident-journal) | Local investigation workspace for event timelines, evidence notes and report exports. | Incident Response |
 | [PhishGuard Lab](https://github.com/leakquicked/phishguard-lab) | Offline phishing-triage learning tool using transparent URL and message heuristics. | Email Security |
 | [ProfitLab AI](https://github.com/leakquicked/profitlab-ai) | Static browser application for analyzing sales CSV files and product margins. | Software Development |
+| [Workflow Guard](https://github.com/leakquicked/workflow-guard) | Local static analyzer for GitHub Actions workflow security misconfigurations. | CI/CD Security |
+| [SBOM Sleuth](https://github.com/leakquicked/sbom-sleuth) | Offline CycloneDX/SPDX JSON inventory-quality and dependency-reference inspector. | Supply Chain Security |
 
 ## Focus areas
 
